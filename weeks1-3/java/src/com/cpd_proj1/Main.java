@@ -4,24 +4,29 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void initializeMatrices(double[][] pha, double[][] phb, int mx_size) {
+    public static void initializeMatrices(double[] pha, double[] phb, int mx_size) {
         int i, j;
         for (i = 0; i < mx_size; ++i)
             for (j = 0; j < mx_size; ++j)
-                pha[i][j] = 1.0;
+                pha[calculateIndex(i, j, mx_size)] = 1.0;
 
         for (i = 0; i < mx_size; ++i)
             for (j = 0; j < mx_size; ++j)
-                phb[i][j] = (double)(i + 1);
+                phb[calculateIndex(i, j, mx_size)] = (double)(i + 1);
     }
+
+    public static int calculateIndex(int i, int j, int size) {
+        return i*size + j;
+    }
+
     public static void onMult(int mx_size) {
         int i, j, k;
         double temp;
 
         // Setup
-        double[][] pha = new double[mx_size][mx_size];
-        double[][] phb = new double[mx_size][mx_size];
-        double[][] phc = new double[mx_size][mx_size];
+        double[] pha = new double[mx_size * mx_size];
+        double[] phb = new double[mx_size * mx_size];
+        double[] phc = new double[mx_size * mx_size];
 
         initializeMatrices(pha, phb, mx_size);
 
@@ -32,9 +37,9 @@ public class Main {
             for (j = 0; j < mx_size; ++j) {
                 temp = 0;
                 for (k = 0; k < mx_size; ++k) {
-                    temp += pha[i][k] * phb[k][j];
+                    temp += pha[calculateIndex(i, k, mx_size)] * phb[calculateIndex(k, j, mx_size)];
                 }
-                phc[i][j] = temp;
+                phc[calculateIndex(i, j, mx_size)] = temp;
             }
         }
 
@@ -46,7 +51,7 @@ public class Main {
         System.out.println("Result matrix: ");
         for (i = 0; i < 1; ++i)
             for (j = 0; j < Math.min(10, mx_size); j++)
-                System.out.print(phc[i][j] + " ");
+                System.out.print(phc[calculateIndex(i, j, mx_size)] + " ");
 
         System.out.println();
     }
@@ -56,9 +61,9 @@ public class Main {
         double temp;
 
         // Setup
-        double[][] pha = new double[mx_size][mx_size];
-        double[][] phb = new double[mx_size][mx_size];
-        double[][] phc = new double[mx_size][mx_size];
+        double[] pha = new double[mx_size * mx_size];
+        double[] phb = new double[mx_size * mx_size];
+        double[] phc = new double[mx_size * mx_size];
 
         initializeMatrices(pha, phb, mx_size);
 
@@ -68,7 +73,7 @@ public class Main {
         for (i = 0; i < mx_size; ++i)
             for (k = 0; k < mx_size; ++k)
                 for (j = 0; j < mx_size; ++j)
-                    phc[i][j] += pha[i][k] * phb[k][j];
+                    phc[calculateIndex(i, j, mx_size)] += pha[calculateIndex(i, k, mx_size)] * phb[calculateIndex(k, j, mx_size)];
 
         long end = System.currentTimeMillis();
         double timeElapsed = (double)(end - start)/1000;
@@ -78,7 +83,7 @@ public class Main {
         System.out.println("Result matrix: ");
         for (i = 0; i < 1; ++i)
             for (j = 0; j < Math.min(10, mx_size); j++)
-                System.out.print(phc[i][j] + " ");
+                System.out.print(phc[calculateIndex(i, j, mx_size)] + " ");
 
         System.out.println();
     }
