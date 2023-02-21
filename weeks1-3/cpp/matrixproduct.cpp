@@ -37,7 +37,6 @@ void OnMult(int mx_size)
     SYSTEMTIME Time1, Time2;
 
     char st[100];
-    double temp;
     int i, j, k;
 
     double *pha, *phb, *phc;
@@ -73,7 +72,6 @@ void OnMultLine(int mx_size) {
     SYSTEMTIME Time1, Time2;
 
     char st[100];
-    double temp;
     int i, j, k;
 
     double *pha, *phb, *phc;
@@ -108,7 +106,6 @@ void OnMultBlock(int mx_size, int bkSize) {
     SYSTEMTIME Time1, Time2;
 
     char st[100];
-    double temp;
     int i, j;
 
     double *pha, *phb, *phc;
@@ -160,12 +157,11 @@ void init_papi() {
 
 int main(int argc, char *argv[]) {
 
-    char c;
     int mx_size, blockSize;
     int op;
 
     int EventSet = PAPI_NULL;
-    long long values[2];
+    long long values[2] = {0};
     int ret;
 
     ret = PAPI_library_init(PAPI_VER_CURRENT);
