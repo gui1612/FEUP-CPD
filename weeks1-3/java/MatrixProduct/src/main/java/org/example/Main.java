@@ -47,7 +47,41 @@ public class Main {
     }
 
     public static void onMultLine(int mx_size) {
-        System.out.println("onMultLine function");
+        int i, j, k;
+        double temp;
+
+        // Setup
+        double[][] pha = new double[mx_size][mx_size];
+        double[][] phb = new double[mx_size][mx_size];
+        double[][] phc = new double[mx_size][mx_size];
+
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                pha[i][j] = 1.0;
+
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                phb[i][j] = (double)(i + 1);
+
+        // Start Counting
+        long start = System.currentTimeMillis();
+
+        for (i = 0; i < mx_size; ++i)
+            for (k = 0; k < mx_size; ++k)
+                for (j = 0; j < mx_size; ++j)
+                    phc[i][j] += pha[i][k] * phb[k][j];
+
+        long end = System.currentTimeMillis();
+        double timeElapsed = (double)(end - start)/1000;
+        String st = String.format("Time: %3.3f seconds%n", timeElapsed);
+        System.out.println(st);
+
+        System.out.println("Result matrix: ");
+        for (i = 0; i < 1; ++i)
+            for (j = 0; j < Math.min(10, mx_size); j++)
+                System.out.print(phc[i][j] + " ");
+
+        System.out.println();
     }
 
     public static void onMultBlock(int mx_size, int blockSize) {
