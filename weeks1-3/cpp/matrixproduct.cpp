@@ -9,20 +9,20 @@ using namespace std;
 
 #define SYSTEMTIME clock_t
 
-void setupMatrices(int m_ar, int m_br, double **pha, double **phb, double **phc) {
+void setupMatrices(int mx_size, double **pha, double **phb, double **phc) {
     int i,j;
 
-    *pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    *phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    *phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
+    *pha = new double[mx_size * mx_size];
+    *phb = new double[mx_size * mx_size];
+    *phc = new double[mx_size * mx_size];
 
-    for (i = 0; i < m_ar; ++i)
-        for (j = 0; j < m_ar; ++j)
-            (*pha)[i * m_ar + j] = (double)1.0;
+    for (i = 0; i < mx_size; ++i)
+        for (j = 0; j < mx_size; ++j)
+            (*pha)[i * mx_size + j] = (double)1.0;
 
-    for (i = 0; i < m_br; ++i)
-        for (j = 0; j < m_br; ++j)
-            (*phb)[i * m_br + j] = (double)(i+1);
+    for (i = 0; i < mx_size; ++i)
+        for (j = 0; j < mx_size; ++j)
+            (*phb)[i * mx_size + j] = (double)(i+1);
 }
 
 void cleanupMatrices(double *pha, double *phb, double *phc) {
@@ -31,7 +31,7 @@ void cleanupMatrices(double *pha, double *phb, double *phc) {
     free(phc);
 }
 
-void OnMult(int m_ar, int m_br)
+void OnMult(int mx_size)
 {
 
     SYSTEMTIME Time1, Time2;
@@ -43,17 +43,17 @@ void OnMult(int m_ar, int m_br)
     double *pha, *phb, *phc;
 
     // Initialize matrices
-    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
+    setupMatrices(mx_size, &pha, &phb, &phc);
 
     Time1 = clock();
 
-    for (i = 0; i < m_ar; ++i) {
-        for (j = 0; j < m_br; ++j) {
+    for (i = 0; i < mx_size; ++i) {
+        for (j = 0; j < mx_size; ++j) {
             temp = 0;
-            for (k = 0; k < m_ar; ++k) {
-                temp += pha[i * m_ar + k] * phb[k * m_br + j];
+            for (k = 0; k < mx_size; ++k) {
+                temp += pha[i * mx_size + k] * phb[k * mx_size + j];
             }
-            phc[i * m_ar + j] = temp;
+            phc[i * mx_size + j] = temp;
         }
     }
 
@@ -65,7 +65,7 @@ void OnMult(int m_ar, int m_br)
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; i++)
     {
-        for (j = 0; j < min(10, m_br); j++)
+        for (j = 0; j < min(10, mx_size); j++)
             cout << phc[j] << " ";
     }
     cout << endl;
@@ -75,7 +75,7 @@ void OnMult(int m_ar, int m_br)
 }
 
 // add code here for line x line matriz multiplication
-void OnMultLine(int m_ar, int m_br)
+void OnMultLine(int mx_size)
 {
 
     SYSTEMTIME Time1, Time2;
@@ -87,17 +87,17 @@ void OnMultLine(int m_ar, int m_br)
     double *pha, *phb, *phc;
 
     // Initialize matrices
-    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
+    setupMatrices(mx_size, &pha, &phb, &phc);
 
     Time1 = clock();
 
-    for (i = 0; i < m_ar; ++i) {
-        for (k = 0; k < m_br; ++k) {
+    for (i = 0; i < mx_size; ++i) {
+        for (k = 0; k < mx_size; ++k) {
             temp = 0;
-            for (j = 0; j < m_ar; ++j){
-                temp += pha[i * m_ar + k] * phb[k * m_br + j];
+            for (j = 0; j < mx_size; ++j){
+                temp += pha[i * mx_size + k] * phb[k * mx_size + j];
             }
-            phc[i * m_ar + j] = temp;
+            phc[i * mx_size + j] = temp;
         }
     }
 
@@ -109,7 +109,7 @@ void OnMultLine(int m_ar, int m_br)
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; ++i)
     {
-        for (j = 0; j < min(10, m_br); ++j)
+        for (j = 0; j < min(10, mx_size); ++j)
             cout << phc[j] << " ";
     }
     cout << endl;
@@ -119,7 +119,7 @@ void OnMultLine(int m_ar, int m_br)
 }
 
 // add code here for block x block matriz multiplication
-void OnMultBlock(int m_ar, int m_br, int bkSize) {
+void OnMultBlock(int mx_size, int bkSize) {
     SYSTEMTIME Time1, Time2;
 
     char st[100];
@@ -129,7 +129,7 @@ void OnMultBlock(int m_ar, int m_br, int bkSize) {
     double *pha, *phb, *phc;
 
     // Initialize matrices
-    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
+    setupMatrices(mx_size, &pha, &phb, &phc);
 
     Time1 = clock();
 
@@ -143,7 +143,7 @@ void OnMultBlock(int m_ar, int m_br, int bkSize) {
     // display 10 elements of the result matrix tto verify correctness
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; ++i) {
-        for (j = 0; j < min(10, m_br); ++j)
+        for (j = 0; j < min(10, mx_size); ++j)
             cout << phc[j] << " ";
     }
 
@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
 {
 
     char c;
-    int lin, col, blockSize;
+    int mx_size, blockSize;
     int op;
 
     int EventSet = PAPI_NULL;
@@ -214,8 +214,7 @@ int main(int argc, char *argv[])
         if (op == 0)
             break;
         printf("Dimensions: lins=cols ? ");
-        cin >> lin;
-        col = lin;
+        cin >> mx_size;
 
         // Start counting
         ret = PAPI_start(EventSet);
@@ -225,15 +224,15 @@ int main(int argc, char *argv[])
         switch (op)
         {
         case 1:
-            OnMult(lin, col);
+            OnMult(mx_size);
             break;
         case 2:
-            OnMultLine(lin, col);
+            OnMultLine(mx_size);
             break;
         case 3:
             cout << "Block Size? ";
             cin >> blockSize;
-            OnMultBlock(lin, col, blockSize);
+            OnMultBlock(mx_size, blockSize);
             break;
         }
 
