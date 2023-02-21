@@ -9,6 +9,28 @@ using namespace std;
 
 #define SYSTEMTIME clock_t
 
+void setupMatrices(int m_ar, int m_br, double **pha, double **phb, double **phc) {
+    int i,j;
+
+    *pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
+    *phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
+    *phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
+
+    for (i = 0; i < m_ar; ++i)
+        for (j = 0; j < m_ar; ++j)
+            (*pha)[i * m_ar + j] = (double)1.0;
+
+    for (i = 0; i < m_br; ++i)
+        for (j = 0; j < m_br; ++j)
+            (*phb)[i * m_br + j] = (double)(i+1);
+}
+
+void cleanupMatrices(double *pha, double *phb, double *phc) {
+    free(pha);
+    free(phb);
+    free(phc);
+}
+
 void OnMult(int m_ar, int m_br)
 {
 
@@ -20,27 +42,15 @@ void OnMult(int m_ar, int m_br)
 
     double *pha, *phb, *phc;
 
-    pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
-
-    for (i = 0; i < m_ar; i++)
-        for (j = 0; j < m_ar; j++)
-            pha[i * m_ar + j] = (double)1.0;
-
-    for (i = 0; i < m_br; i++)
-        for (j = 0; j < m_br; j++)
-            phb[i * m_br + j] = (double)(i + 1);
+    // Initialize matrices
+    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
 
     Time1 = clock();
 
-    for (i = 0; i < m_ar; i++)
-    {
-        for (j = 0; j < m_br; j++)
-        {
+    for (i = 0; i < m_ar; ++i) {
+        for (j = 0; j < m_br; ++j) {
             temp = 0;
-            for (k = 0; k < m_ar; k++)
-            {
+            for (k = 0; k < m_ar; ++k) {
                 temp += pha[i * m_ar + k] * phb[k * m_br + j];
             }
             phc[i * m_ar + j] = temp;
@@ -60,9 +70,8 @@ void OnMult(int m_ar, int m_br)
     }
     cout << endl;
 
-    free(pha);
-    free(phb);
-    free(phc);
+    // Free memory used by matrices
+    cleanupMatrices(pha, phb, phc);
 }
 
 // add code here for line x line matriz multiplication
@@ -77,27 +86,15 @@ void OnMultLine(int m_ar, int m_br)
 
     double *pha, *phb, *phc;
 
-    pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
-    phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
-
-    for (i = 0; i < m_ar; i++)
-        for (j = 0; j < m_ar; j++)
-            pha[i * m_ar + j] = (double)1.0;
-
-    for (i = 0; i < m_br; i++)
-        for (j = 0; j < m_br; j++)
-            phb[i * m_br + j] = (double)(i + 1);
+    // Initialize matrices
+    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
 
     Time1 = clock();
 
-    for (i = 0; i < m_ar; i++)
-    {
-        for (k = 0; k < m_br; k++)
-        {
+    for (i = 0; i < m_ar; ++i) {
+        for (k = 0; k < m_br; ++k) {
             temp = 0;
-            for (j = 0; j < m_ar; j++)
-            {
+            for (j = 0; j < m_ar; ++j) {
                 temp += pha[i * m_ar + k] * phb[k * m_br + j];
             }
             phc[i * m_ar + j] = temp;
@@ -117,10 +114,8 @@ void OnMultLine(int m_ar, int m_br)
     }
     cout << endl;
 
-    free(pha);
-    free(phb);
-    free(phc);
-
+    // Free memory used by matrices
+    cleanupMatrices(pha, phb, phc);
 }
 
 // add code here for block x block matriz multiplication
