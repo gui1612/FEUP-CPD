@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void onMult(int mx_size) {
-        int i, j;
+        int i, j, k;
+        double temp;
 
         // Setup
         double[][] pha = new double[mx_size][mx_size];
@@ -22,21 +23,27 @@ public class Main {
         // Start Counting
         long start = System.currentTimeMillis();
 
-        /////////// EXERCISE /////////////
-
-        // Code in here
-
-        //////////////////////////////////
+        for (i = 0; i < mx_size; ++i) {
+            for (j = 0; j < mx_size; ++j) {
+                temp = 0;
+                for (k = 0; k < mx_size; ++k) {
+                    temp += pha[i][k] * phb[k][j];
+                }
+                phc[i][j] = temp;
+            }
+        }
 
         long end = System.currentTimeMillis();
         double timeElapsed = (double)(end - start)/1000;
         String st = String.format("Time: %3.3f seconds%n", timeElapsed);
+        System.out.println(st);
 
         System.out.println("Result matrix: ");
         for (i = 0; i < 1; ++i)
             for (j = 0; j < Math.min(10, mx_size); j++)
-                System.out.println(phc[i][j] + " ");
+                System.out.print(phc[i][j] + " ");
 
+        System.out.println();
     }
 
     public static void onMultLine(int mx_size) {
