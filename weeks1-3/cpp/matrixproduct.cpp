@@ -47,15 +47,10 @@ void OnMult(int mx_size)
 
     Time1 = clock();
 
-    for (i = 0; i < mx_size; ++i) {
-        for (j = 0; j < mx_size; ++j) {
-            temp = 0;
-            for (k = 0; k < mx_size; ++k) {
-                temp += pha[i * mx_size + k] * phb[k * mx_size + j];
-            }
-            phc[i * mx_size + j] = temp;
-        }
-    }
+    for (i = 0; i < mx_size; ++i)
+        for (j = 0; j < mx_size; ++j)
+            for (k = 0; k < mx_size; ++k)
+                phc[i * mx_size + j] += pha[i * mx_size + k] * phb[k * mx_size + j];
 
     Time2 = clock();
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
@@ -64,10 +59,8 @@ void OnMult(int mx_size)
     // display 10 elements of the result matrix tto verify correctness
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; i++)
-    {
         for (j = 0; j < min(10, mx_size); j++)
             cout << phc[j] << " ";
-    }
     cout << endl;
 
     // Free memory used by matrices
@@ -75,8 +68,7 @@ void OnMult(int mx_size)
 }
 
 // add code here for line x line matriz multiplication
-void OnMultLine(int mx_size)
-{
+void OnMultLine(int mx_size) {
 
     SYSTEMTIME Time1, Time2;
 
@@ -91,15 +83,10 @@ void OnMultLine(int mx_size)
 
     Time1 = clock();
 
-    for (i = 0; i < mx_size; ++i) {
-        for (k = 0; k < mx_size; ++k) {
-            temp = 0;
-            for (j = 0; j < mx_size; ++j){
-                temp += pha[i * mx_size + k] * phb[k * mx_size + j];
-            }
-            phc[i * mx_size + j] = temp;
-        }
-    }
+    for (i = 0; i < mx_size; ++i)
+        for (k = 0; k < mx_size; ++k)
+            for (j = 0; j < mx_size; ++j)
+                phc[i * mx_size + j] += pha[i * mx_size + k] * phb[k * mx_size + j];
 
     Time2 = clock();
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
@@ -108,10 +95,8 @@ void OnMultLine(int mx_size)
     // display 10 elements of the result matrix tto verify correctness
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; ++i)
-    {
         for (j = 0; j < min(10, mx_size); ++j)
             cout << phc[j] << " ";
-    }
     cout << endl;
 
     // Free memory used by matrices
@@ -142,10 +127,9 @@ void OnMultBlock(int mx_size, int bkSize) {
 
     // display 10 elements of the result matrix tto verify correctness
     cout << "Result matrix: " << endl;
-    for (i = 0; i < 1; ++i) {
+    for (i = 0; i < 1; ++i)
         for (j = 0; j < min(10, mx_size); ++j)
             cout << phc[j] << " ";
-    }
 
     cout << endl;
 
@@ -153,20 +137,19 @@ void OnMultBlock(int mx_size, int bkSize) {
     cleanupMatrices(pha, phb, phc);
 }
 
-void handle_error(int retval)
-{
+void handle_error(int retval) {
     printf("PAPI error %d: %s\n", retval, PAPI_strerror(retval));
     exit(1);
 }
 
-void init_papi()
-{
+void init_papi() {
     int retval = PAPI_library_init(PAPI_VER_CURRENT);
-    if (retval != PAPI_VER_CURRENT && retval < 0)
-    {
+    
+    if (retval != PAPI_VER_CURRENT && retval < 0) {
         printf("PAPI library version mismatch!\n");
         exit(1);
     }
+
     if (retval < 0)
         handle_error(retval);
 
@@ -175,8 +158,7 @@ void init_papi()
               << " REVISION: " << PAPI_VERSION_REVISION(retval) << "\n";
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
     char c;
     int mx_size, blockSize;
@@ -203,8 +185,7 @@ int main(int argc, char *argv[])
         cout << "ERROR: PAPI_L2_DCM" << endl;
 
     op = 1;
-    do
-    {
+    do {
         cout << endl
              << "1. Multiplication" << endl;
         cout << "2. Line Multiplication" << endl;
@@ -221,8 +202,7 @@ int main(int argc, char *argv[])
         if (ret != PAPI_OK)
             cout << "ERROR: Start PAPI" << endl;
 
-        switch (op)
-        {
+        switch (op) {
         case 1:
             OnMult(mx_size);
             break;
