@@ -1,4 +1,4 @@
-package org.example;
+package com.cpd_proj1;
 
 import java.util.Scanner;
 
