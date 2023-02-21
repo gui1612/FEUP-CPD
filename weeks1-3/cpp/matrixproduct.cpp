@@ -94,7 +94,7 @@ void OnMultLine(int m_ar, int m_br)
     for (i = 0; i < m_ar; ++i) {
         for (k = 0; k < m_br; ++k) {
             temp = 0;
-            for (j = 0; j < m_ar; ++j) {
+            for (j = 0; j < m_ar; ++j){
                 temp += pha[i * m_ar + k] * phb[k * m_br + j];
             }
             phc[i * m_ar + j] = temp;
@@ -107,9 +107,9 @@ void OnMultLine(int m_ar, int m_br)
 
     // display 10 elements of the result matrix tto verify correctness
     cout << "Result matrix: " << endl;
-    for (i = 0; i < 1; i++)
+    for (i = 0; i < 1; ++i)
     {
-        for (j = 0; j < min(10, m_br); j++)
+        for (j = 0; j < min(10, m_br); ++j)
             cout << phc[j] << " ";
     }
     cout << endl;
@@ -119,8 +119,38 @@ void OnMultLine(int m_ar, int m_br)
 }
 
 // add code here for block x block matriz multiplication
-void OnMultBlock(int m_ar, int m_br, int bkSize)
-{
+void OnMultBlock(int m_ar, int m_br, int bkSize) {
+    SYSTEMTIME Time1, Time2;
+
+    char st[100];
+    double temp;
+    int i, j;
+
+    double *pha, *phb, *phc;
+
+    // Initialize matrices
+    setupMatrices(m_ar, m_br, &pha, &phb, &phc);
+
+    Time1 = clock();
+
+    //code for block x block matrix multiplication
+
+
+    Time2 = clock();
+    sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
+    cout << st;
+
+    // display 10 elements of the result matrix tto verify correctness
+    cout << "Result matrix: " << endl;
+    for (i = 0; i < 1; ++i) {
+        for (j = 0; j < min(10, m_br); ++j)
+            cout << phc[j] << " ";
+    }
+
+    cout << endl;
+
+    // Free memory used by matrices
+    cleanupMatrices(pha, phb, phc);
 }
 
 void handle_error(int retval)
