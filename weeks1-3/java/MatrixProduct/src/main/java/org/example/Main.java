@@ -3,6 +3,17 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
+
+    public static void initializeMatrices(double[][] pha, double[][] phb, int mx_size) {
+        int i, j;
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                pha[i][j] = 1.0;
+
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                phb[i][j] = (double)(i + 1);
+    }
     public static void onMult(int mx_size) {
         int i, j, k;
         double temp;
@@ -12,13 +23,7 @@ public class Main {
         double[][] phb = new double[mx_size][mx_size];
         double[][] phc = new double[mx_size][mx_size];
 
-        for (i = 0; i < mx_size; ++i)
-            for (j = 0; j < mx_size; ++j)
-                pha[i][j] = 1.0;
-
-        for (i = 0; i < mx_size; ++i)
-            for (j = 0; j < mx_size; ++j)
-                phb[i][j] = (double)(i + 1);
+        initializeMatrices(pha, phb, mx_size);
 
         // Start Counting
         long start = System.currentTimeMillis();
@@ -55,13 +60,7 @@ public class Main {
         double[][] phb = new double[mx_size][mx_size];
         double[][] phc = new double[mx_size][mx_size];
 
-        for (i = 0; i < mx_size; ++i)
-            for (j = 0; j < mx_size; ++j)
-                pha[i][j] = 1.0;
-
-        for (i = 0; i < mx_size; ++i)
-            for (j = 0; j < mx_size; ++j)
-                phb[i][j] = (double)(i + 1);
+        initializeMatrices(pha, phb, mx_size);
 
         // Start Counting
         long start = System.currentTimeMillis();
