@@ -3,20 +3,52 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
-    public static void onMult(int lin, int col) {
-        System.out.println("onMult function");
+    public static void onMult(int mx_size) {
+        int i, j;
+
+        // Setup
+        double[][] pha = new double[mx_size][mx_size];
+        double[][] phb = new double[mx_size][mx_size];
+        double[][] phc = new double[mx_size][mx_size];
+
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                pha[i][j] = 1.0;
+
+        for (i = 0; i < mx_size; ++i)
+            for (j = 0; j < mx_size; ++j)
+                phb[i][j] = (double)(i + 1);
+
+        // Start Counting
+        long start = System.currentTimeMillis();
+
+        /////////// EXERCISE /////////////
+
+        // Code in here
+
+        //////////////////////////////////
+
+        long end = System.currentTimeMillis();
+        double timeElapsed = (double)(end - start)/1000;
+        String st = String.format("Time: %3.3f seconds%n", timeElapsed);
+
+        System.out.println("Result matrix: ");
+        for (i = 0; i < 1; ++i)
+            for (j = 0; j < Math.min(10, mx_size); j++)
+                System.out.println(phc[i][j] + " ");
+
     }
 
-    public static void onMultLine(int lin, int col) {
+    public static void onMultLine(int mx_size) {
         System.out.println("onMultLine function");
     }
 
-    public static void onMultBlock(int lin, int col, int blockSize) {
+    public static void onMultBlock(int mx_size, int blockSize) {
         System.out.println("onMultBlock function");
     }
     public static void main(String[] args) {
         char c;
-        int lin, col, blockSize;
+        int mx_size, blockSize;
         int op;
 
         Scanner scanner = new Scanner(System.in);
@@ -32,20 +64,19 @@ public class Main {
                 break;
 
             System.out.print("Dimensions: lins=cols ? ");
-            lin = scanner.nextInt();
-            col = lin;
+            mx_size = scanner.nextInt();
 
             switch (op) {
                 case 1:
-                    onMult(lin, col);
+                    onMult(mx_size);
                     break;
                 case 2:
-                    onMultLine(lin, col);
+                    onMultLine(mx_size);
                     break;
                 case 3:
                     System.out.print("Block Size? ");
                     blockSize = scanner.nextInt();
-                    onMultBlock(lin, col, blockSize);
+                    onMultBlock(mx_size, blockSize);
                     break;
             }
 
