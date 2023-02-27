@@ -239,26 +239,39 @@ int main(int argc, char *argv[]) {
     int op;
 
     int EventSet = PAPI_NULL;
-    long long values[2] = {0};
+    long long values[7] = {0};
     int ret;
 
     ret = PAPI_library_init(PAPI_VER_CURRENT);
-    if (ret != PAPI_VER_CURRENT)
-        std::cout << "FAIL" << endl;
+    if (ret != PAPI_VER_CURRENT) std::cout << "FAIL" << endl;
 
     ret = PAPI_create_eventset(&EventSet);
-    if (ret != PAPI_OK)
-        cout << "ERROR: create eventset" << endl;
+    if (ret != PAPI_OK) cout << "ERROR: create eventset" << endl;
 
     ret = PAPI_add_event(EventSet, PAPI_L1_DCM);
-    if (ret != PAPI_OK)
-        cout << "ERROR: PAPI_L1_DCM" << endl;
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L1_DCM" << endl;
+
+    ret = PAPI_add_event(EventSet, PAPI_L1_TCM);
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L1_TCM" << endl;
+
+    ret = PAPI_add_event(EventSet, PAPI_L1_ICM);
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L1_ICM" << endl;
 
     ret = PAPI_add_event(EventSet, PAPI_L2_DCM);
-    if (ret != PAPI_OK)
-        cout << "ERROR: PAPI_L2_DCM" << endl;
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L2_DCM" << endl;
+
+    ret = PAPI_add_event(EventSet, PAPI_L2_TCM);
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L2_TCM" << endl;
+
+    ret = PAPI_add_event(EventSet, PAPI_L2_ICM);
+    if (ret != PAPI_OK) cout << "ERROR: PAPI_L2_ICM" << endl;
+
+	ret = PAPI_add_event(EventSet,PAPI_TOT_INS);
+	if (ret != PAPI_OK) cout << "ERROR: PAPI_TOT_INS" << endl;
+
 
     op = 1;
+
     do {
         cout << endl
              << "1. Multiplication" << endl;
@@ -295,7 +308,12 @@ int main(int argc, char *argv[]) {
         if (ret != PAPI_OK)
             cout << "ERROR: Stop PAPI" << endl;
         printf("L1 DCM: %lld \n", values[0]);
-        printf("L2 DCM: %lld \n", values[1]);
+        printf("L1 TCM: %lld \n", values[1]);
+        printf("L1 ICM: %lld \n", values[2]);
+        printf("L2 DCM: %lld \n", values[3]);
+        printf("L2 TCM: %lld \n", values[4]);
+        printf("L2 ICM: %lld \n", values[5]);
+        printf("TOT_INS: %lld \n", values[6]);
 
         ret = PAPI_reset(EventSet);
         if (ret != PAPI_OK)
@@ -304,12 +322,25 @@ int main(int argc, char *argv[]) {
     } while (op != 0);
 
     ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
-    if (ret != PAPI_OK)
-        std::cout << "FAIL remove event" << endl;
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L1_DCM" << endl;
+
+    ret = PAPI_remove_event(EventSet, PAPI_L1_TCM);
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L1_TCM" << endl;
+
+    ret = PAPI_remove_event(EventSet, PAPI_L1_ICM);
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L1_ICM" << endl;
 
     ret = PAPI_remove_event(EventSet, PAPI_L2_DCM);
-    if (ret != PAPI_OK)
-        std::cout << "FAIL remove event" << endl;
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L2_DCM" << endl;
+
+    ret = PAPI_remove_event(EventSet, PAPI_L2_TCM);
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L2_TCM" << endl;
+
+    ret = PAPI_remove_event(EventSet, PAPI_L2_ICM);
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_L2_ICM" << endl;
+
+    ret = PAPI_remove_event(EventSet, PAPI_TOT_INS);
+    if (ret != PAPI_OK) std::cout << "FAIL remove event: PAPI_TOT_INS" << endl;
 
     ret = PAPI_destroy_eventset(&EventSet);
     if (ret != PAPI_OK)
