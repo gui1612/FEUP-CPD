@@ -388,20 +388,22 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        ret = PAPI_stop(EventSet, values);
-        if (ret != PAPI_OK)
-            cout << "ERROR: Stop PAPI" << endl;
-        printf("L1 DCM: %lld \n", values[0]);
-        printf("L1 TCM: %lld \n", values[1]);
-        printf("L1 ICM: %lld \n", values[2]);
-        printf("L2 DCM: %lld \n", values[3]);
-        printf("L2 TCM: %lld \n", values[4]);
-        printf("L2 ICM: %lld \n", values[5]);
-        printf("TOT_INS: %lld \n", values[6]);
+        if (op != 4) {
+            ret = PAPI_stop(EventSet, values);
+            if (ret != PAPI_OK)
+                cout << "ERROR: Stop PAPI" << endl;
+            printf("L1 DCM: %lld \n", values[0]);
+            printf("L1 TCM: %lld \n", values[1]);
+            printf("L1 ICM: %lld \n", values[2]);
+            printf("L2 DCM: %lld \n", values[3]);
+            printf("L2 TCM: %lld \n", values[4]);
+            printf("L2 ICM: %lld \n", values[5]);
+            printf("TOT_INS: %lld \n", values[6]);
 
-        ret = PAPI_reset(EventSet);
-        if (ret != PAPI_OK)
-            std::cout << "FAIL reset" << endl;
+            ret = PAPI_reset(EventSet);
+            if (ret != PAPI_OK)
+                std::cout << "FAIL reset" << endl;
+        }
 
     } while (op != 0);
 
