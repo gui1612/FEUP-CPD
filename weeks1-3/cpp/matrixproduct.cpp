@@ -135,8 +135,8 @@ void OnMultBlock(int mx_size, int bkSize) {
         for (int block_col_c = 0; block_col_c < side_len_blocks; ++block_col_c) {
             
             // with this we select the block in the destiny matrix
-            uint8_t block_y_offset_c = block_row_c * bkSize;
-            uint8_t block_x_offset_c = block_col_c * bkSize;
+            int block_y_offset_c = block_row_c * bkSize;
+            int block_x_offset_c = block_col_c * bkSize;
 
             // since this is a matrix multiplication, we have to traverse the matrix side in blocks
 
@@ -146,20 +146,20 @@ void OnMultBlock(int mx_size, int bkSize) {
                 int x_a, y_a, x_b, y_b;
 
                 // pick the block in matrix A
-                uint8_t block_row_a = block_row_c;
-                uint8_t block_col_a = block_k;
+                int block_row_a = block_row_c;
+                int block_col_a = block_k;
 
                 // pick the block in matrix B
-                uint8_t block_row_b = block_k;
-                uint8_t block_col_b = block_col_c;
+                int block_row_b = block_k;
+                int block_col_b = block_col_c;
 
                 // the computed offset of Matrix A's block
-                uint8_t block_x_offset_a = block_col_a * bkSize;
-                uint8_t block_y_offset_a = block_row_a * bkSize;
+                int block_x_offset_a = block_col_a * bkSize;
+                int block_y_offset_a = block_row_a * bkSize;
 
                 // the computed offset of Matrix B's block
-                uint8_t block_x_offset_b = block_col_b * bkSize;
-                uint8_t block_y_offset_b = block_row_b * bkSize;
+                int block_x_offset_b = block_col_b * bkSize;
+                int block_y_offset_b = block_row_b * bkSize;
 
                 // TODO: instead of populating the blocks, we could spend some more time thinking about this and figure out how to do the product straight away
 
