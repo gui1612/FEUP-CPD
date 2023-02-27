@@ -128,6 +128,9 @@ void OnMultBlock(int mx_size, int bkSize) {
     block_a = new double[bkSize * bkSize];
     block_b = new double[bkSize * bkSize];
 
+    for (i = 0; i < bkSize * bkSize; ++i)
+        block_a[i] = block_b[i] = 0;
+
     for (int block_row_c = 0; block_row_c < side_len_blocks; ++block_row_c) {
         for (int block_col_c = 0; block_col_c < side_len_blocks; ++block_col_c) {
             
@@ -171,7 +174,7 @@ void OnMultBlock(int mx_size, int bkSize) {
                         x_b = block_x_offset_b + col;
 
                         block_a[row * bkSize + col] = pha[y_a * mx_size + x_a];
-                        block_b[row * bkSize + col] = pha[y_b * mx_size + x_b];
+                        block_b[row * bkSize + col] = phb[y_b * mx_size + x_b];
                     }
                 }
 
