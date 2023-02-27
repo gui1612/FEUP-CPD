@@ -23,12 +23,16 @@ void setupMatrices(int mx_size, double **pha, double **phb, double **phc) {
     for (i = 0; i < mx_size; ++i)
         for (j = 0; j < mx_size; ++j)
             (*phb)[i * mx_size + j] = (double)(i+1);
+
+    for (i = 0; i < mx_size; ++i)
+        for (j = 0; j < mx_size; ++j)
+            (*phc)[i * mx_size + j] = (double)(i+1);
 }
 
 void cleanupMatrices(double *pha, double *phb, double *phc) {
-    free(pha);
-    free(phb);
-    free(phc);
+    delete pha;
+    delete phb;
+    delete phc;
 }
 
 void OnMult(int mx_size)
@@ -55,7 +59,7 @@ void OnMult(int mx_size)
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
     cout << st;
 
-    // display 10 elements of the result matrix tto verify correctness
+    // display 10 elements of the result matrix to verify correctness
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; i++)
         for (j = 0; j < min(10, mx_size); j++)
@@ -66,7 +70,7 @@ void OnMult(int mx_size)
     cleanupMatrices(pha, phb, phc);
 }
 
-// add code here for line x line matriz multiplication
+// add code here for line x line matrix multiplication
 void OnMultLine(int mx_size) {
 
     SYSTEMTIME Time1, Time2;
@@ -90,7 +94,7 @@ void OnMultLine(int mx_size) {
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
     cout << st;
 
-    // display 10 elements of the result matrix tto verify correctness
+    // display 10 elements of the result matrix to verify correctness
     cout << "Result matrix: " << endl;
     for (i = 0; i < 1; ++i)
         for (j = 0; j < min(10, mx_size); ++j)
@@ -101,12 +105,12 @@ void OnMultLine(int mx_size) {
     cleanupMatrices(pha, phb, phc);
 }
 
-// add code here for block x block matriz multiplication
+// add code here for block x block matrix multiplication
 void OnMultBlock(int mx_size, int bkSize) {
     SYSTEMTIME Time1, Time2;
 
     char st[100];
-    int i, j;
+    int i, j, k;
 
     double *pha, *phb, *phc;
 
@@ -117,6 +121,77 @@ void OnMultBlock(int mx_size, int bkSize) {
 
     //code for block x block matrix multiplication
 
+    int side_len_blocks = mx_size / bkSize;
+
+    double *block_a, *block_b;
+
+    block_a = new double[bkSize * bkSize];
+    block_b = new double[bkSize * bkSize];
+
+    for (int block_row_c = 0; block_row_c < side_len_blocks; ++block_row_c) {
+        for (int block_col_c = 0; block_col_c < side_len_blocks; ++block_col_c) {
+            
+            // with this we select the block in the destiny matrix
+            uint8_t block_y_offset_c = block_row_c * bkSize;
+            uint8_t block_x_offset_c = block_col_c * bkSize;
+
+            // since this is a matrix multiplication, we have to traverse the matrix side in blocks
+
+            for (int block_k = 0; block_k < side_len_blocks; ++block_k) {
+                int row, col;
+
+                int x_a, y_a, x_b, y_b;
+
+                // pick the block in matrix A
+                uint8_t block_row_a = block_row_c;
+                uint8_t block_col_a = block_k;
+
+                // pick the block in matrix B
+                uint8_t block_row_b = block_k;
+                uint8_t block_col_b = block_col_c;
+
+                // the computed offset of Matrix A's block
+                uint8_t block_x_offset_a = block_col_a * bkSize;
+                uint8_t block_y_offset_a = block_row_a * bkSize;
+
+                // the computed offset of Matrix B's block
+                uint8_t block_x_offset_b = block_col_b * bkSize;
+                uint8_t block_y_offset_b = block_row_b * bkSize;
+
+                // TODO: instead of populating the blocks, we could spend some more time thinking about this and figure out how to do the product straight away
+
+                // populate blocks
+                for (row = 0; row < bkSize; ++row){
+                    for (col = 0; col < bkSize; ++col) {
+
+                        y_a = block_y_offset_a + row;
+                        x_a = block_x_offset_a + col;
+
+                        y_b = block_y_offset_b + row;
+                        x_b = block_x_offset_b + col;
+
+                        block_a[row * bkSize + col] = pha[y_a * mx_size + x_a];
+                        block_b[row * bkSize + col] = pha[y_b * mx_size + x_b];
+                    }
+                }
+
+                for (i = 0; i < bkSize; ++i)
+                    for (k = 0; k < bkSize; ++k)
+                        for (j = 0; j < bkSize; ++j) {
+
+                            int x_c, y_c;
+
+                            y_c = block_y_offset_c + i;
+                            x_c = block_x_offset_c + j;
+
+                            phc[y_c * mx_size + x_c] += block_a[i * bkSize + k] * block_b[k * bkSize + j];
+                        }
+            }
+        }
+    }
+
+    delete block_a;
+    delete block_b;
 
     Time2 = clock();
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
@@ -186,6 +261,7 @@ int main(int argc, char *argv[]) {
              << "1. Multiplication" << endl;
         cout << "2. Line Multiplication" << endl;
         cout << "3. Block Multiplication" << endl;
+        cout << "0. Quit" << endl;
         cout << "Selection?: ";
         cin >> op;
         if (op == 0)
