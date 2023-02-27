@@ -193,8 +193,8 @@ void OnMultBlock(int mx_size, int bkSize) {
         }
     }
 
-    delete block_a;
-    delete block_b;
+    delete[] block_a;
+    delete[] block_b;
 
     Time2 = clock();
     sprintf(st, "Time: %3.3f seconds\n", (double)(Time2 - Time1) / CLOCKS_PER_SEC);
@@ -215,6 +215,83 @@ void OnMultBlock(int mx_size, int bkSize) {
 void handle_error(int retval) {
     printf("PAPI error %d: %s\n", retval, PAPI_strerror(retval));
     exit(1);
+}
+
+void runStats(int &EventSet, int &ret, long long values[]) {
+
+    printf("-----Line Multiplication-----\n\n");
+
+	for (size_t n = 600; n < 3001; n+=400) {	
+		printf("n=%zu\n", n);
+		// Start counting
+		ret = PAPI_start(EventSet);
+		if (ret != PAPI_OK) cout << "ERROR: Start PAPI" << endl;
+		OnMultLine(n);  
+  		ret = PAPI_stop(EventSet, values);
+  		if (ret != PAPI_OK) cout << "ERROR: Stop PAPI" << endl;
+  		printf("PAPI_L1_DCM: %lld \n",values[0]);
+  		printf("PAPI_L1_ICM: %lld \n",values[1]);
+		printf("PAPI_L2_DCM: %lld \n",values[2]);
+  		printf("PAPI_L2_ICM: %lld \n",values[3]);  		
+		printf("PAPI_L1_TCM: %lld \n",values[4]);
+  		printf("PAPI_L2_TCM: %lld \n",values[5]); 
+  		printf("PAPI_TOT_INS: %lld \n\n",values[6]);
+		printf("----\n");
+
+		ret = PAPI_reset( EventSet );
+		if ( ret != PAPI_OK )
+			std::cout << "FAIL reset" << endl; 
+
+	}
+
+	for (size_t n = 4096; n < 12401; n+=2048)  {	
+		printf("n=%zu\n", n);
+
+		// Start counting
+		ret = PAPI_start(EventSet);
+		if (ret != PAPI_OK) cout << "ERROR: Start PAPI" << endl;
+		OnMultLine(n);  
+  		ret = PAPI_stop(EventSet, values);
+  		if (ret != PAPI_OK) cout << "ERROR: Stop PAPI" << endl;
+  		printf("PAPI_L1_DCM: %lld \n",values[0]);
+  		printf("PAPI_L1_ICM: %lld \n",values[1]);
+		printf("PAPI_L2_DCM: %lld \n",values[2]);
+  		printf("PAPI_L2_ICM: %lld \n",values[3]);  		
+		printf("PAPI_L1_TCM: %lld \n",values[4]);
+  		printf("PAPI_L2_TCM: %lld \n",values[5]); 
+  		printf("PAPI_TOT_INS: %lld \n\n",values[6]);
+		printf("----\n");
+
+		ret = PAPI_reset( EventSet );
+		if ( ret != PAPI_OK )
+			std::cout << "FAIL reset" << endl; 
+
+	}
+
+	printf("-----Block Multiplication-----\n\n");
+
+	for (size_t n = 4096; n < 12401; n+=2048) {
+		for (size_t blockSize = 128; blockSize < 513; blockSize *= 2) {
+			printf("n=%zu, blocksize=%zu\n", n, blockSize);
+			// Start counting
+			ret = PAPI_start(EventSet);
+			if (ret != PAPI_OK) cout << "ERROR: Start PAPI" << endl;
+			OnMultBlock(n, blockSize);  
+			ret = PAPI_stop(EventSet, values);
+			if (ret != PAPI_OK) cout << "ERROR: Stop PAPI" << endl;
+			printf("PAPI_L1_DCM: %lld \n",values[0]);
+			printf("PAPI_L1_ICM: %lld \n",values[1]);
+			printf("PAPI_L2_DCM: %lld \n",values[2]);
+			printf("PAPI_L2_ICM: %lld \n",values[3]);  		
+			printf("PAPI_L1_TCM: %lld \n",values[4]);
+			printf("PAPI_L2_TCM: %lld \n",values[5]); 
+			printf("PAPI_TOT_INS: %lld \n\n",values[6]);
+			printf("----\n");
+			ret = PAPI_reset( EventSet );
+			if ( ret != PAPI_OK )
+				std::cout << "FAIL reset" << endl; 
+		}
+	}
 }
 
 void init_papi() {
@@ -277,13 +354,17 @@ int main(int argc, char *argv[]) {
              << "1. Multiplication" << endl;
         cout << "2. Line Multiplication" << endl;
         cout << "3. Block Multiplication" << endl;
+        cout << "4. Run all stats" << endl;
         cout << "0. Quit" << endl;
         cout << "Selection?: ";
         cin >> op;
-        if (op == 0)
-            break;
-        printf("Dimensions: lins=cols ? ");
-        cin >> mx_size;
+
+        if (op == 0) break;
+        
+        if (op != 4) {
+            printf("Dimensions: lins=cols ? ");
+            cin >> mx_size;
+        }
 
         // Start counting
         ret = PAPI_start(EventSet);
@@ -301,6 +382,9 @@ int main(int argc, char *argv[]) {
             cout << "Block Size? ";
             cin >> blockSize;
             OnMultBlock(mx_size, blockSize);
+            break;
+        case 4:
+            runStats(EventSet, ret, values);
             break;
         }
 
