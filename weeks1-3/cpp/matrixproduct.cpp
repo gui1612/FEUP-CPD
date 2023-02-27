@@ -224,7 +224,7 @@ void runStats(int &EventSet, int &ret, long long values[]) {
 	for (size_t n = 600; n <= 3000; n+=400) {	
 		printf("n=%zu\n", n);
 		// Start counting
-		ret = PAPI_start(EventSet);
+        ret = PAPI_start(EventSet);
 		if (ret != PAPI_OK) cout << "ERROR: Start PAPI" << endl;
 		OnMult(n);  
   		ret = PAPI_stop(EventSet, values);
@@ -344,8 +344,7 @@ int main(int argc, char *argv[]) {
     long long values[7] = {0};
     int ret;
 
-    ret = PAPI_library_init(PAPI_VER_CURRENT);
-    if (ret != PAPI_VER_CURRENT) std::cout << "FAIL" << endl;
+    init_papi();
 
     ret = PAPI_create_eventset(&EventSet);
     if (ret != PAPI_OK) cout << "ERROR: create eventset" << endl;
@@ -389,12 +388,12 @@ int main(int argc, char *argv[]) {
         if (op != 4) {
             printf("Dimensions: lins=cols ? ");
             cin >> mx_size;
-        }
 
-        // Start counting
-        ret = PAPI_start(EventSet);
-        if (ret != PAPI_OK)
-            cout << "ERROR: Start PAPI" << endl;
+            // Start counting
+            ret = PAPI_start(EventSet);
+            if (ret != PAPI_OK)
+                cout << "ERROR: Start PAPI" << endl;
+        }
 
         switch (op) {
         case 1:
