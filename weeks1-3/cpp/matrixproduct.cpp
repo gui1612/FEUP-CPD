@@ -219,9 +219,34 @@ void handle_error(int retval) {
 
 void runStats(int &EventSet, int &ret, long long values[]) {
 
+    printf("-----Regular Multiplication-----\n\n");
+
+	for (size_t n = 600; n <= 3000; n+=400) {	
+		printf("n=%zu\n", n);
+		// Start counting
+		ret = PAPI_start(EventSet);
+		if (ret != PAPI_OK) cout << "ERROR: Start PAPI" << endl;
+		OnMult(n);  
+  		ret = PAPI_stop(EventSet, values);
+  		if (ret != PAPI_OK) cout << "ERROR: Stop PAPI" << endl;
+  		printf("PAPI_L1_DCM: %lld \n",values[0]);
+  		printf("PAPI_L1_ICM: %lld \n",values[1]);
+		printf("PAPI_L2_DCM: %lld \n",values[2]);
+  		printf("PAPI_L2_ICM: %lld \n",values[3]);  		
+		printf("PAPI_L1_TCM: %lld \n",values[4]);
+  		printf("PAPI_L2_TCM: %lld \n",values[5]); 
+  		printf("PAPI_TOT_INS: %lld \n\n",values[6]);
+		printf("----\n");
+
+		ret = PAPI_reset( EventSet );
+		if ( ret != PAPI_OK )
+			std::cout << "FAIL reset" << endl; 
+
+	}
+
     printf("-----Line Multiplication-----\n\n");
 
-	for (size_t n = 600; n < 3001; n+=400) {	
+	for (size_t n = 600; n <= 3000; n+=400) {	
 		printf("n=%zu\n", n);
 		// Start counting
 		ret = PAPI_start(EventSet);
@@ -244,7 +269,7 @@ void runStats(int &EventSet, int &ret, long long values[]) {
 
 	}
 
-	for (size_t n = 4096; n < 12401; n+=2048)  {	
+	for (size_t n = 4096; n <= 10240; n+=2048)  {	
 		printf("n=%zu\n", n);
 
 		// Start counting
@@ -270,8 +295,8 @@ void runStats(int &EventSet, int &ret, long long values[]) {
 
 	printf("-----Block Multiplication-----\n\n");
 
-	for (size_t n = 4096; n < 12401; n+=2048) {
-		for (size_t blockSize = 128; blockSize < 513; blockSize *= 2) {
+	for (size_t n = 4096; n <= 12400; n+=2048) {
+		for (size_t blockSize = 128; blockSize <= 512; blockSize *= 2) {
 			printf("n=%zu, blocksize=%zu\n", n, blockSize);
 			// Start counting
 			ret = PAPI_start(EventSet);
