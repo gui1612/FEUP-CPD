@@ -1,0 +1,40 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {0.1}Introduction}{1}{section.0.1}%
+\contentsline {section}{\numberline {0.2}Download Application}{1}{section.0.2}%
+\contentsline {subsection}{\numberline {0.2.1}Architecture of the download application}{1}{subsection.0.2.1}%
+\contentsline {subsection}{\numberline {0.2.2}Successful download}{2}{subsection.0.2.2}%
+\contentsline {section}{\numberline {0.3}Network Configuration and Analysis}{2}{section.0.3}%
+\contentsline {subsection}{\numberline {0.3.1}Experiment I}{3}{subsection.0.3.1}%
+\contentsline {subsubsection}{\numberline {0.3.1.1}Network Architecture}{3}{subsubsection.0.3.1.1}%
+\contentsline {subsubsection}{\numberline {0.3.1.2}Experiment Objectives}{3}{subsubsection.0.3.1.2}%
+\contentsline {subsubsection}{\numberline {0.3.1.3}Main Configuration Commands}{3}{subsubsection.0.3.1.3}%
+\contentsline {subsubsection}{\numberline {0.3.1.4}Log analysis}{3}{subsubsection.0.3.1.4}%
+\contentsline {subsection}{\numberline {0.3.2}Experiment II}{5}{subsection.0.3.2}%
+\contentsline {subsubsection}{\numberline {0.3.2.1}Network Architecture}{5}{subsubsection.0.3.2.1}%
+\contentsline {subsubsection}{\numberline {0.3.2.2}Experiment Objectives}{5}{subsubsection.0.3.2.2}%
+\contentsline {subsubsection}{\numberline {0.3.2.3}Main Configuration Commands}{5}{subsubsection.0.3.2.3}%
+\contentsline {subsubsection}{\numberline {0.3.2.4}Log Analysis}{6}{subsubsection.0.3.2.4}%
+\contentsline {subsection}{\numberline {0.3.3}Experiment III}{6}{subsection.0.3.3}%
+\contentsline {subsubsection}{\numberline {0.3.3.1}Network Architecture}{6}{subsubsection.0.3.3.1}%
+\contentsline {subsubsection}{\numberline {0.3.3.2}Experiment Objectives}{6}{subsubsection.0.3.3.2}%
+\contentsline {subsubsection}{\numberline {0.3.3.3}Main Configuration Commands}{7}{subsubsection.0.3.3.3}%
+\contentsline {subsubsection}{\numberline {0.3.3.4}Log Analysis}{7}{subsubsection.0.3.3.4}%
+\contentsline {subsection}{\numberline {0.3.4}Experiment IV}{8}{subsection.0.3.4}%
+\contentsline {subsubsection}{\numberline {0.3.4.1}Network Architecture}{8}{subsubsection.0.3.4.1}%
+\contentsline {subsubsection}{\numberline {0.3.4.2}Experiment Objectives}{8}{subsubsection.0.3.4.2}%
+\contentsline {subsubsection}{\numberline {0.3.4.3}Main Configuration Commands}{8}{subsubsection.0.3.4.3}%
+\contentsline {subsubsection}{\numberline {0.3.4.4}Log Analysis}{9}{subsubsection.0.3.4.4}%
+\contentsline {subsection}{\numberline {0.3.5}Experiment V}{9}{subsection.0.3.5}%
+\contentsline {subsubsection}{\numberline {0.3.5.1}Network Architecture}{9}{subsubsection.0.3.5.1}%
+\contentsline {subsubsection}{\numberline {0.3.5.2}Experiment Objectives}{9}{subsubsection.0.3.5.2}%
+\contentsline {subsubsection}{\numberline {0.3.5.3}Main Configuration Commands}{10}{subsubsection.0.3.5.3}%
+\contentsline {subsubsection}{\numberline {0.3.5.4}Log Analysis}{10}{subsubsection.0.3.5.4}%
+\contentsline {subsection}{\numberline {0.3.6}Experiment VI}{10}{subsection.0.3.6}%
+\contentsline {subsubsection}{\numberline {0.3.6.1}Network Architecture}{10}{subsubsection.0.3.6.1}%
+\contentsline {subsubsection}{\numberline {0.3.6.2}Experiment Objectives}{10}{subsubsection.0.3.6.2}%
+\contentsline {subsubsection}{\numberline {0.3.6.3}Log Analysis}{10}{subsubsection.0.3.6.3}%
+\contentsline {section}{\numberline {0.4}Conclusions}{11}{section.0.4}%
+\contentsline {section}{\numberline {.1}Appendix}{13}{section.Alph0.1}%
+\contentsline {subsection}{\numberline {.1.1}Code}{13}{subsection.Alph0.1.1}%
+\contentsline {subsection}{\numberline {.1.2}Wireshark Captures}{13}{subsection.Alph0.1.2}%
+\contentsline {subsection}{\numberline {.1.3}Setup scripts}{13}{subsection.Alph0.1.3}%
